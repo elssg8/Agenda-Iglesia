@@ -1,0 +1,225 @@
+
+<div class="calendar">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>
+
+<div class="add-event">
+<!-- formulario reactivo para registrar un evento nuevo
+  Nombre del evento
+  fecha
+  hora de inicio
+  hora de fin
+  nombre de la persona que lo agendo
+  numero de telefono
+  lugar
+  notas -->
+
+  <form [formGroup]="addEventForm" (ngSubmit)="addEvent()">
+    <div class="form-group"></div>
+    <label for="title">Nombre del evento</label>
+    <select class="form-control" id="title" formControlName="title">
+      <option value="Bautizo">Bautizo</option>
+      <option value="Presentacion">Presentación</option>
+      <option value="Comunion">Comunión</option>
+      <option value="Confirmacion">Confirmación</option>
+      <option value="XV años">XV años</option>
+      <option value="Boda">Boda</option>
+      <option value="Misa de cuerpo presente">Misa de cuerpo presente</option>
+      <option value="Misa general">Misa general</option>
+      <option value="Misa especial (Navidad, Semana Santa)">Misa especial (Navidad, Semana Santa)</option>
+    </select>
+
+    <div *ngIf="addEventForm.get('title')?.invalid && addEventForm.get('title')?.touched">
+      El nombre del evento es requerido
+    </div>
+
+    <label for="start">Fecha y Hora de inicio</label>
+    <input type="datetime-local" class="form-control" id="start" formControlName="start">
+    <div *ngIf="addEventForm.get('start')?.invalid && addEventForm.get('start')?.touched">
+      La hora de inicio es requerida
+    </div>
+
+    <label for="end">Fecha y Hora de fin</label>
+    <input type="datetime-local" class="form-control" id="end" formControlName="end">
+    <div *ngIf="addEventForm.get('end')?.invalid && addEventForm.get('end')?.touched">
+      La hora de fin es requerida
+    </div>
+
+    <label for="personName">Nombre de la personNamea que lo agendo</label>
+    <input type="text" class="form-control" id="personName" formControlName="personName">
+    <div *ngIf="addEventForm.get('personName')?.invalid && addEventForm.get('personName')?.touched">
+      El nombre de la persona es requerido
+    </div>
+
+    <label for="phoneNumber">Numero de telefono</label>
+    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+    <div *ngIf="addEventForm.get('phoneNumber')?.invalid && addEventForm.get('phoneNumber')?.touched" >
+      El numero de telefono es requerido
+    </div>
+
+    <label for="place">Lugar</label>
+    <input type="text" class="form-control" id="place" formControlName="place">
+    <div *ngIf="addEventForm.get('place')?.invalid && addEventForm.get('place')?.touched">
+      El lugar es requerido
+    </div>
+
+    <label for="notes">Notas</label>
+    <textarea class="form-control" id="notes" formControlName="notes"></textarea>
+    <div *ngIf="addEventForm.get('notes')?.invalid && addEventForm.get('notes')?.touched">
+      Las notas son requeridas
+    </div>
+
+    <button class="continue-application" type="submit" [disabled]="addEventForm.invalid">
+      <div>
+          <div class="pencil"></div>
+          <div class="folder">
+              <div class="top">
+                  <svg viewBox="0 0 24 27">
+                      <path d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z"></path>
+                  </svg>
+              </div>
+              <div class="paper"></div>
+          </div>
+      </div>
+      Agendar Evento
+  </button>
+  </form>
+</div>
+
+
+
+  <div class="modal" *ngIf="dateClicked">
+    <div class="modal-content">
+      <h2>Agregar evento</h2>
+      <form [formGroup]="addEventForm" (ngSubmit)="addEvent()">
+        <div class="form-group"></div>
+        <label for="title">Nombre del evento</label>
+        <input type="text" class="form-control" id="title" formControlName="title">
+        <div *ngIf="addEventForm.get('title')?.invalid && addEventForm.get('title')?.touched">
+          El nombre del evento es requerido
+        </div>
+
+        <!-- <label for="date">Fecha</label>
+        <input type="date" class="form-control" id="date" formControlName="date">
+        <div *ngIf="addEventForm.get('date')?.invalid && addEventForm.get('date')?.touched" >
+          La fecha es requerida
+        </div> -->
+
+        <label for="start">Fecha y Hora de inicio</label>
+        <input type="datetime-local" class="form-control" id="start" formControlName="start">
+        <div *ngIf="addEventForm.get('start')?.invalid && addEventForm.get('start')?.touched">
+          La hora de inicio es requerida
+        </div>
+
+        <label for="end">Fecha y Hora de fin</label>
+        <input type="datetime-local" class="form-control" id="end" formControlName="end">
+        <div *ngIf="addEventForm.get('end')?.invalid && addEventForm.get('end')?.touched">
+          La hora de fin es requerida
+        </div>
+
+        <label for="personName">Nombre de la personNamea que lo agendo</label>
+        <input type="text" class="form-control" id="personName" formControlName="personName">
+        <div *ngIf="addEventForm.get('personName')?.invalid && addEventForm.get('personName')?.touched">
+          El nombre de la persona es requerido
+        </div>
+
+        <label for="phoneNumber">Numero de telefono</label>
+        <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+        <div *ngIf="addEventForm.get('phoneNumber')?.invalid && addEventForm.get('phoneNumber')?.touched" >
+          El numero de telefono es requerido
+        </div>
+
+        <label for="place">Lugar</label>
+        <input type="text" class="form-control" id="place" formControlName="place">
+        <div *ngIf="addEventForm.get('place')?.invalid && addEventForm.get('place')?.touched">
+          El lugar es requerido
+        </div>
+
+        <label for="notes">Notas</label>
+        <textarea class="form-control" id="notes" formControlName="notes"></textarea>
+        <div *ngIf="addEventForm.get('notes')?.invalid && addEventForm.get('notes')?.touched">
+          Las notas son requeridas
+        </div>
+
+        <!-- <button type="submit" [disabled]="addEventForm.invalid">Agregar evento</button> -->
+        <!-- <button class="close" (click)="closeModal()">Close</button> -->
+        <button type="submit" [disabled]="addEventForm.invalid" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Agregar evento</button>
+        <button type="button" (click)="closeModal()" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cerrar</button>
+      </form>
+    </div>
+  </div>
+
+
+<!-- modal para mostrar los datos del evento al que se hizo click, en la parte de abajo tendra boton para editar o eliminar el evento -->
+
+<!-- <div class="modal" *ngIf="eventClicked">
+  <div class="modal-content">
+    <button class="close" (click)="closeModal()">Close</button>
+    <h2>Evento</h2>
+    <p>Nombre del evento: {{eventObj.title}}</p>
+    <p>Fecha: {{eventObj.start | date}}</p>
+    <p>Hora de inicio: {{eventObj.start | date: 'mediumTime'}}</p>
+    <p>Hora de fin: {{eventObj.end | date: 'mediumTime'}}</p>
+    <p>Nombre de la persona que lo agendo: {{eventObj.extendedProps.personName}}</p>
+    <p>Numero de telefono: {{eventObj.extendedProps.phoneNumber}}</p>
+    <p>Lugar: {{eventObj.extendedProps.place}}</p>
+    <p>Notas: {{eventObj.extendedProps.notes}}</p>
+    <button (click)="editEvent()">Editar</button>
+    <button (click)="deleteEvent()">Eliminar</button>
+  </div> -->
+
+
+<!-- Main modal -->
+<div class="modal" *ngIf="eventClicked">
+  <!-- Modal content -->
+  <!-- Modal header -->
+  <div class="modal-header">
+      <h3>
+        {{eventObj.title}}
+      </h3>
+      <button type="button" (click)="closeModal()" class="btn-close">Cerrar</button>
+  </div>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        ID del evento: {{eventObj.id}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Fecha: {{eventObj.start | date}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Hora de inicio: {{eventObj.start | date: 'mediumTime'}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Hora de fin: {{eventObj.end | date: 'mediumTime'}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Nombre de la persona que lo agendo: {{eventObj.extendedProps.personName}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Numero de telefono: {{eventObj.extendedProps.phoneNumber}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Lugar: {{eventObj.extendedProps.place}}
+      </p>
+      <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+        Notas: {{eventObj.extendedProps.notes}}
+      </p>
+  </div>
+  <!-- Modal footer -->
+  <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+      <button data-modal-hide="default-modal"
+              type="button"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              (click)="editEvent(eventObj.extendedProps.id)">
+              Editar
+      </button>
+      <button data-modal-hide="default-modal"
+              type="button"
+              class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              (click)="deleteEvent()">
+              Eliminar
+      </button>
+  </div>
+</div>
